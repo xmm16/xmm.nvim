@@ -23,6 +23,8 @@ vim.g.maplocalleader = "\\"
 vim.opt.termguicolors = true
 vim.opt.updatetime = 10
 vim.opt.laststatus = 3
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = "nc"
 
 -- Setup lazy.nvim
 require("lazy").setup({
@@ -73,7 +75,7 @@ require("illuminate").configure({
 		"regex",
 	},
 	-- delay: delay in milliseconds
-	delay = 0,
+	delay = 100,
 })
 
 require("telescope").setup({
@@ -118,5 +120,16 @@ require("noice").setup({
 		long_message_to_split = true, -- long messages will be sent to a split
 		inc_rename = false, -- enables an input dialog for inc-rename.nvim
 		lsp_doc_border = true, -- add a border to hover docs and signature help
+	},
+})
+
+require("neorg").setup({
+	load = {
+		["core.defaults"] = {},
+		["core.concealer"] = {
+			config = { -- We added a `config` table!
+				icon_preset = "varied", -- And we set our option here.
+			},
+		},
 	},
 })
