@@ -186,6 +186,8 @@ require("rose-pine").setup({
 
 vim.cmd("colorscheme rose-pine-main")
 
+vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
 require("auto-indent").setup({
 	lightmode = false, -- Lightmode assumes tabstop and indentexpr not change within buffer's lifetime
 	indentexpr = {
