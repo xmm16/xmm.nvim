@@ -22,7 +22,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.opt.termguicolors = true
 vim.opt.updatetime = 10
-vim.opt.laststatus = 3
+vim.opt.laststatus = 2
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = "nc"
 
@@ -132,4 +132,68 @@ require("neorg").setup({
 			},
 		},
 	},
+})
+
+require("rose-pine").setup({
+	variant = "main", -- auto, main, moon, or dawn
+	dark_variant = "main", -- main, moon, or dawn
+	dim_inactive_windows = true,
+	extend_background_behind_borders = true,
+
+	enable = {
+		terminal = true,
+		legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+		migrations = true, -- Handle deprecated options automatically
+	},
+
+	styles = {
+		bold = true,
+		italic = true,
+		transparency = true,
+	},
+
+	groups = {
+		border = "muted",
+		link = "iris",
+		panel = "surface",
+
+		error = "love",
+		hint = "iris",
+		info = "foam",
+		note = "pine",
+		todo = "rose",
+		warn = "gold",
+
+		git_add = "foam",
+		git_change = "rose",
+		git_delete = "love",
+		git_dirty = "rose",
+		git_ignore = "muted",
+		git_merge = "iris",
+		git_rename = "pine",
+		git_stage = "iris",
+		git_text = "rose",
+		git_untracked = "subtle",
+
+		h1 = "iris",
+		h2 = "foam",
+		h3 = "rose",
+		h4 = "gold",
+		h5 = "pine",
+		h6 = "foam",
+	},
+})
+
+vim.cmd("colorscheme rose-pine-main")
+
+require("auto-indent").setup({
+	lightmode = false, -- Lightmode assumes tabstop and indentexpr not change within buffer's lifetime
+	indentexpr = {
+		---@param lnum: number
+		---@return number
+		indentexpr = function(lnum)
+			return require("nvim-treesitter.indent").get_indent(lnum)
+		end,
+	}, -- Use vim.bo.indentexpr by default, see 'Custom Indent Evaluate Method'
+	ignore_filetype = {}, -- Disable plugin for specific filetypes, e.g. ignore_filetype = { 'javascript' }
 })
