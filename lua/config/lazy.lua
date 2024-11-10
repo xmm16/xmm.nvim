@@ -1,3 +1,14 @@
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+vim.opt.termguicolors = true
+vim.opt.updatetime = 0
+vim.opt.laststatus = 2
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = "nc"
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -15,17 +26,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-vim.opt.termguicolors = true
-vim.opt.updatetime = 10
-vim.opt.laststatus = 2
-vim.opt.conceallevel = 2
-vim.opt.concealcursor = "nc"
-
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
@@ -37,6 +37,26 @@ require("lazy").setup({
 	install = { missing = true },
 	-- automatically check for plugin updates
 	checker = { enabled = true },
+})
+
+-- UI Overhaul
+require("noice").setup({
+	lsp = {
+		-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+		override = {
+			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+			["vim.lsp.util.stylize_markdown"] = true,
+			["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+		},
+	},
+	-- you can enable a preset for easier configuration
+	presets = {
+		bottom_search = true, -- use a classic bottom cmdline for search
+		command_palette = true, -- position the cmdline and popupmenu together
+		long_message_to_split = true, -- long messages will be sent to a split
+		inc_rename = true, -- enables an input dialog for inc-rename.nvim
+		lsp_doc_border = true, -- add a border to hover docs and signature help
+	},
 })
 
 require("nvim-autopairs").setup()
@@ -75,7 +95,7 @@ require("illuminate").configure({
 		"regex",
 	},
 	-- delay: delay in milliseconds
-	delay = 100,
+	delay = 0,
 })
 
 require("telescope").setup({
@@ -103,26 +123,6 @@ require("notify").setup({
 	background_colour = "#000000",
 })
 
--- UI Overhaul
-require("noice").setup({
-	lsp = {
-		-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-		override = {
-			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-			["vim.lsp.util.stylize_markdown"] = true,
-			["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-		},
-	},
-	-- you can enable a preset for easier configuration
-	presets = {
-		bottom_search = true, -- use a classic bottom cmdline for search
-		command_palette = true, -- position the cmdline and popupmenu together
-		long_message_to_split = true, -- long messages will be sent to a split
-		inc_rename = false, -- enables an input dialog for inc-rename.nvim
-		lsp_doc_border = true, -- add a border to hover docs and signature help
-	},
-})
-
 require("neorg").setup({
 	load = {
 		["core.defaults"] = {},
@@ -137,7 +137,7 @@ require("neorg").setup({
 vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 require("auto-indent").setup({
-	lightmode = false, -- Lightmode assumes tabstop and indentexpr not change within buffer's lifetime
+	lightmode = true, -- Lightmode assumes tabstop and indentexpr not change within buffer's lifetime
 	indentexpr = {
 		---@param lnum: number
 		---@return number
@@ -148,49 +148,56 @@ require("auto-indent").setup({
 	ignore_filetype = {}, -- Disable plugin for specific filetypes, e.g. ignore_filetype = { 'javascript' }
 })
 
-require("nightfox").setup({
-	options = {
-		-- Compiled file's destination location
-		compile_path = vim.fn.stdpath("cache") .. "/nightfox",
-		compile_file_suffix = "_compiled", -- Compiled file suffix
-		transparent = true, -- Disable setting background
-		terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-		dim_inactive = true, -- Non focused panes set to alternative background
-		module_default = true, -- Default enable value for modules
-		colorblind = {
-			enable = false, -- Enable colorblind support
-			simulate_only = false, -- Only show simulated colorblind colors and not diff shifted
-			severity = {
-				protan = 0, -- Severity [0,1] for protan (red)
-				deutan = 0, -- Severity [0,1] for deutan (green)
-				tritan = 0, -- Severity [0,1] for tritan (blue)
-			},
-		},
-		styles = { -- Style to be applied to different syntax groups
-			comments = "NONE", -- Value is any valid attr-list value `:help attr-list`
-			conditionals = "NONE",
-			constants = "NONE",
-			functions = "NONE",
-			keywords = "NONE",
-			numbers = "NONE",
-			operators = "NONE",
-			strings = "NONE",
-			types = "NONE",
-			variables = "NONE",
-		},
-		inverse = { -- Inverse highlight for different types
-			match_paren = false,
-			visual = false,
-			search = false,
-		},
-		modules = { -- List of various plugins and additional options
-			-- ...
-		},
+require("rose-pine").setup({
+	variant = "main", -- auto, main, moon, or dawn
+	dark_variant = "main", -- main, moon, or dawn
+	dim_inactive_windows = true,
+	extend_background_behind_borders = true,
+
+	enable = {
+		terminal = true,
+		legacy_highlights = false, -- Improve compatibility for previous versions of Neovim
+		migrations = true, -- Handle deprecated options automatically
 	},
-	palettes = {},
-	specs = {},
-	groups = {},
+
+	styles = {
+		bold = true,
+		italic = true,
+		transparency = true,
+	},
+
+	groups = {
+		border = "muted",
+		link = "iris",
+		panel = "surface",
+
+		error = "love",
+		hint = "iris",
+		info = "foam",
+		note = "pine",
+		todo = "rose",
+		warn = "gold",
+
+		git_add = "foam",
+		git_change = "rose",
+		git_delete = "love",
+		git_dirty = "rose",
+		git_ignore = "muted",
+		git_merge = "iris",
+		git_rename = "pine",
+		git_stage = "iris",
+		git_text = "rose",
+		git_untracked = "subtle",
+
+		h1 = "iris",
+		h2 = "foam",
+		h3 = "rose",
+		h4 = "gold",
+		h5 = "pine",
+		h6 = "foam",
+	},
 })
 
--- setup must be called before loading
-vim.cmd("colorscheme nightfox")
+vim.cmd("colorscheme rose-pine")
+
+vim.keymap.set("n", "<leader>rn", ":IncRename ")
