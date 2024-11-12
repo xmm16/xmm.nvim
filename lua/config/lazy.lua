@@ -4,7 +4,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.opt.termguicolors = true
-vim.opt.updatetime = 0
 vim.opt.laststatus = 2
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = "nc"
@@ -61,6 +60,8 @@ require("noice").setup({
 	},
 })
 
+vim.cmd("colorscheme oxocarbon")
+
 require("nvim-autopairs").setup()
 
 local highlight = {
@@ -96,8 +97,6 @@ require("illuminate").configure({
 		"treesitter",
 		"regex",
 	},
-	-- delay: delay in milliseconds
-	delay = 0,
 })
 
 require("telescope").setup({
@@ -136,10 +135,7 @@ require("neorg").setup({
 	},
 })
 
-vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-
 require("auto-indent").setup({
-	lightmode = true, -- Lightmode assumes tabstop and indentexpr not change within buffer's lifetime
 	indentexpr = {
 		---@param lnum: number
 		---@return number
@@ -150,56 +146,34 @@ require("auto-indent").setup({
 	ignore_filetype = {}, -- Disable plugin for specific filetypes, e.g. ignore_filetype = { 'javascript' }
 })
 
-require("rose-pine").setup({
-	variant = "main", -- auto, main, moon, or dawn
-	dark_variant = "main", -- main, moon, or dawn
-	dim_inactive_windows = true,
-	extend_background_behind_borders = true,
-
-	enable = {
-		terminal = true,
-		legacy_highlights = false, -- Improve compatibility for previous versions of Neovim
-		migrations = true, -- Handle deprecated options automatically
-	},
-
-	styles = {
-		bold = true,
-		italic = true,
-		transparency = true,
-	},
-
-	groups = {
-		border = "muted",
-		link = "iris",
-		panel = "surface",
-
-		error = "love",
-		hint = "iris",
-		info = "foam",
-		note = "pine",
-		todo = "rose",
-		warn = "gold",
-
-		git_add = "foam",
-		git_change = "rose",
-		git_delete = "love",
-		git_dirty = "rose",
-		git_ignore = "muted",
-		git_merge = "iris",
-		git_rename = "pine",
-		git_stage = "iris",
-		git_text = "rose",
-		git_untracked = "subtle",
-
-		h1 = "iris",
-		h2 = "foam",
-		h3 = "rose",
-		h4 = "gold",
-		h5 = "pine",
-		h6 = "foam",
-	},
-})
-
-vim.cmd("colorscheme rose-pine")
+vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 vim.keymap.set("n", "<leader>rn", ":IncRename ")
+
+require("colorizer").setup({
+	filetypes = { "*" },
+	user_default_options = {
+		RGB = true, -- #RGB hex codes
+		RRGGBB = true, -- #RRGGBB hex codes
+		names = true, -- "Name" codes like Blue or blue
+		RRGGBBAA = true, -- #RRGGBBAA hex codes
+		AARRGGBB = true, -- 0xAARRGGBB hex codes
+		rgb_fn = true, -- CSS rgb() and rgba() functions
+		hsl_fn = true, -- CSS hsl() and hsla() functions
+		css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+		css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+		-- Available modes for `mode`: foreground, background,  virtualtext
+		mode = "background", -- Set the display mode.
+		-- Available methods are false / true / "normal" / "lsp" / "both"
+		-- True is same as normal
+		tailwind = "both", -- Enable tailwind colors
+		-- parsers can contain values used in |user_default_options|
+		sass = { enable = true, parsers = { "css" } }, -- Enable sass colors
+		virtualtext = "■",
+		-- update color values even if buffer is not focused
+		-- example use: cmp_menu, cmp_docs
+		always_update = false,
+	},
+	-- all the sub-options of filetypes apply to buftypes
+	buftypes = {},
+})

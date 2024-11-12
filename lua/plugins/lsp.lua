@@ -20,7 +20,7 @@ return {
 		})
 		mason_tool_installer.setup({
 			ensure_installed = {
-				"prettierd", -- prettierd formatter for general-purpose
+				"prettierd", -- prettier formatter for general-purpose
 				"stylua", -- lua formatter
 				"luacheck", -- lua linter
 				"eslint_d", -- JavaScript/TypeScript linter

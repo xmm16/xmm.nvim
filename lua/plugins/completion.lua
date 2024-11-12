@@ -17,7 +17,4 @@ return {
 			-- Your LSP settings here
 		end,
 	},
-	{
-		"gelguy/wilder.nvim",
-	},
 }
