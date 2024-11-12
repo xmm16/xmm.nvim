@@ -8,6 +8,8 @@ vim.opt.updatetime = 0
 vim.opt.laststatus = 2
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = "nc"
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
