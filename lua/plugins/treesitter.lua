@@ -15,6 +15,8 @@ return {
 				"markdown",
 				"markdown_inline",
 				"kdl",
+				"astro",
+				"rust",
 			},
 			sync_install = false,
 			auto_install = true,

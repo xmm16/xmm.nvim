@@ -146,8 +146,6 @@ require("auto-indent").setup({
 	ignore_filetype = {}, -- Disable plugin for specific filetypes, e.g. ignore_filetype = { 'javascript' }
 })
 
-vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-
 vim.keymap.set("n", "<leader>rn", ":IncRename ")
 
 require("colorizer").setup({
@@ -172,7 +170,7 @@ require("colorizer").setup({
 		virtualtext = "■",
 		-- update color values even if buffer is not focused
 		-- example use: cmp_menu, cmp_docs
-		always_update = false,
+		always_update = true,
 	},
 	-- all the sub-options of filetypes apply to buftypes
 	buftypes = {},
