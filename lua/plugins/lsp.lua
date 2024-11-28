@@ -22,7 +22,6 @@ return {
 			ensure_installed = {
 				"prettierd", -- prettier formatter for general-purpose
 				"stylua", -- lua formatter
-				"luacheck", -- lua linter
 				"eslint_d", -- JavaScript/TypeScript linter
 				"htmlhint", -- HTML linter
 				"clang-format", -- C/C++ Formatter

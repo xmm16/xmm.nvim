@@ -60,8 +60,6 @@ require("noice").setup({
 	},
 })
 
-vim.cmd("colorscheme oxocarbon")
-
 require("nvim-autopairs").setup()
 
 local highlight = {
@@ -175,3 +173,5 @@ require("colorizer").setup({
 	-- all the sub-options of filetypes apply to buftypes
 	buftypes = {},
 })
+
+vim.cmd([[colorscheme abscs]])
